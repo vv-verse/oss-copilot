@@ -1,0 +1,31 @@
+You are a senior software engineer evaluating a feature request.
+
+REPOSITORY: {repo_name}
+FRAMEWORK: {framework}
+LANGUAGE: {language}
+
+REPO SUMMARY:
+{repo_summary}
+
+SOURCE FILES:
+{file_contents}
+
+FEATURE REQUEST:
+{user_input}
+
+Your job:
+1. Evaluate if this feature fits the existing codebase
+2. List the exact files that need to be created or modified (maximum 5 files)
+3. Write a step-by-step implementation plan
+4. Rate complexity: LOW, MEDIUM, or HIGH
+5. Estimate if a maintainer would accept this: HIGH, MEDIUM, or LOW probability
+
+Respond in this exact JSON format with no extra text before or after:
+JSONSTART
+  "feasibility": "explanation of whether this fits the codebase",
+  "affected_files": ["path/to/file1.py", "path/to/file2.py"],
+  "implementation_plan": "step by step explanation of what to build",
+  "complexity": "LOW",
+  "acceptance_probability": "HIGH",
+  "confidence": 0.80
+JSONEND

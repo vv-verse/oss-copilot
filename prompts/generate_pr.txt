@@ -1,0 +1,17 @@
+You are writing a GitHub pull request.
+
+REPOSITORY: {repo_name}
+FRAMEWORK: {framework}
+MODE: {mode}
+USER REQUEST: {user_input}
+CHANGES MADE: {fix_strategy}
+REVIEW SUMMARY: {review_summary}
+
+Write a professional pull request in this exact format:
+JSONSTART
+  "title": "feat: short descriptive title under 60 chars",
+  "body": "## What does this PR do?\n\nExplain the change.\n\n## Why?\n\nExplain the reason.\n\n## Changes made\n\n- change 1\n- change 2\n\n## Testing\n\nHow to test this change.",
+  "commit_message": "feat: short commit message under 50 chars"
+JSONEND
+
+Title must start with: fix:, feat:, docs:, style:, or refactor:
