@@ -82,6 +82,13 @@ def analyse(repo_knowledge, mode, user_input):
     print("  Parsing response...")
     parsed = parse_json_response(response)
 
+    # Filter out lock files from affected_files — these should never be hand-edited
+    lock_files = ("package-lock.json", "yarn.lock", "pnpm-lock.yaml", "poetry.lock", "Cargo.lock")
+    if "affected_files" in parsed:
+        parsed["affected_files"] = [
+            f for f in parsed["affected_files"] if not f.endswith(lock_files)
+        ]
+
     slug = re.sub(r"[^a-z0-9]+", "-", user_input[:30].lower()).strip("-")
     branch_name = f"copilot/{mode}/{slug}"
 

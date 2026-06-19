@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
-FALLBACK_MODEL = "gemini-1.5-flash"
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+FALLBACK_MODEL = "gemini-2.5-flash-lite"
 
 # Build client list from all available keys
 _keys = []
@@ -42,13 +42,23 @@ def ask(prompt: str, context: str = "", max_retries: int = 3) -> str:
                         break
                 except Exception as e:
                     error = str(e)
-                    if "429" in error or "RESOURCE_EXHAUSTED" in error:
+
+                    if "limit: 0" in error:
+                        print(f"  Zero quota on {model} (account {idx+1}). Skipping immediately.")
+                        break
+
+                    elif "429" in error or "RESOURCE_EXHAUSTED" in error:
                         if attempt < max_retries - 1:
                             print(f"  Rate limited (account {idx+1}, {model}). Waiting 35s...")
                             time.sleep(35)
                         else:
                             print(f"  Account {idx+1} exhausted on {model}. Trying next...")
                         break
+
+                    elif "503" in error or "UNAVAILABLE" in error:
+                        print(f"  Model {model} temporarily overloaded. Trying next...")
+                        break
+
                     else:
                         raise
 
